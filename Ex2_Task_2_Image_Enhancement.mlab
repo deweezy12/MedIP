@@ -1,0 +1,513 @@
+// MDL v1 utf8
+mevislabVersion = 3.6.1.9
+network  {
+  watchlist = ""
+}
+module Convolution {
+  internal  {
+    frame = "833 245 96 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "3187 167 393 209"
+        sizeHint = "363 209"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Convolution
+    borderHandling = NoPad
+    fillValue = 0
+    referenceExtentMode = Overlap
+    intervalMinOfFilteredVoxels = 0
+    intervalMaxOfFilteredVoxels = 1024
+    useIntervalOfFilteredVoxels = FALSE
+    externalKernel = ""
+    predefKernel = "3x3 Gauss Kernel"
+  }
+}
+module LocalImage {
+  internal  {
+    frame = "889 589 128 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "3561 904 544 166"
+        sizeHint = "544 166"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = LocalImage
+    name = $(NETWORK)/ImageData/ProbandT1.dcm
+    autoLoad = TRUE
+  }
+}
+module Diffusion {
+  internal  {
+    frame = "721 245 80 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "3142 442 420 278"
+        sizeHint = "366 278"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Diffusion
+    updateMode = AutoUpdate
+    timeStepSize = 67.599998
+    numOfSteps = 20
+    edgeParameter = 1
+    smoothing = 4.9999976
+    diffusionFunction = Exponential
+  }
+}
+module PythonArithmetic {
+  internal  {
+    frame = "1017 289 128 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1152 787 1545 968"
+        sizeHint = "604 568"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MeanFilter
+    calculateOutputSubImage = "import numpy as np
+from itertools import product
+
+# Unpacking a tuple
+ext_x, ext_y, ext_z, ext_c, ext_t, ext_u = extent
+print('image extent: ', extent)
+
+for u, t, c, z, y, x in product(range(ext_u), range(ext_t), range(ext_c), range(ext_z), range(2, ext_y-2), range(2, ext_x-2)):
+  window = in0[u, t, c, z, y-2:y+3, x-2:x+3]
+  out[u, t, c, z, y, x] = np.mean(window)
+  
+
+print('done')
+"
+    calculateInputSubImageBox = "inBox = outBox"
+    calculateOutputImageProperties = "# set page extent to image extent (=compute result for whole image at once)
+extent = inImage0.imageExtent()
+outImage.setPageExtent(extent[0],extent[1],extent[2],extent[3],extent[4],extent[5] )"
+    numberOfInputs = 1
+    doubleConstant0 = 0
+    doubleConstant1 = 0
+    doubleConstant2 = 0
+    doubleConstant3 = 0
+    doubleConstant4 = 0
+    doubleConstant5 = 0
+    doubleConstantName0 = ""
+    doubleConstantName1 = ""
+    doubleConstantName2 = ""
+    doubleConstantName3 = ""
+    doubleConstantName4 = ""
+    doubleConstantName5 = ""
+    intConstant0 = 0
+    intConstant1 = 0
+    intConstant2 = 0
+    intConstant3 = 0
+    intConstant4 = 0
+    intConstant5 = 0
+    intConstantName0 = ""
+    intConstantName1 = ""
+    intConstantName2 = ""
+    intConstantName3 = ""
+    intConstantName4 = ""
+    intConstantName5 = ""
+    setMinMaxValues = FALSE
+    minVoxelValue = 0
+    maxVoxelValue = 0
+    setDataType = TRUE
+    dataType = "unsigned int16"
+    inputDataType0 = "input type"
+    inputDataType1 = "output type"
+    inputDataType2 = "output type"
+    inputDataType3 = "output type"
+    inputDataType4 = "output type"
+    inputHandling0 = AllowAny
+    inputHandling1 = AllowAny
+    inputHandling2 = AllowAny
+    inputHandling3 = AllowAny
+    inputHandling4 = AllowAny
+  }
+}
+module PythonArithmetic {
+  internal  {
+    frame = "1193 289 128 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1454 583 1138 568"
+        sizeHint = "604 568"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MedianFilter
+    calculateOutputSubImage = "import numpy as np
+from itertools import product
+
+# Unpacking a tuple
+ext_x, ext_y, ext_z, ext_c, ext_t, ext_u = extent
+print('image extent: ', extent)
+
+for u, t, c, z, y, x in product(range(ext_u), range(ext_t), range(ext_c), range(ext_z), range(2, ext_y-2), range(2, ext_x-2)):
+  window = in0[u, t, c, z, y-2:y+3, x-2:x+3]
+  out[u, t, c, z, y, x] = np.median(window)
+
+print('done')
+"
+    calculateInputSubImageBox = "inBox = outBox"
+    calculateOutputImageProperties = "# set page extent to image extent (=compute result for whole image at once)
+extent = inImage0.imageExtent()
+outImage.setPageExtent(extent[0],extent[1],extent[2],extent[3],extent[4],extent[5] )"
+    numberOfInputs = 1
+    doubleConstant0 = 0
+    doubleConstant1 = 0
+    doubleConstant2 = 0
+    doubleConstant3 = 0
+    doubleConstant4 = 0
+    doubleConstant5 = 0
+    doubleConstantName0 = ""
+    doubleConstantName1 = ""
+    doubleConstantName2 = ""
+    doubleConstantName3 = ""
+    doubleConstantName4 = ""
+    doubleConstantName5 = ""
+    intConstant0 = 0
+    intConstant1 = 0
+    intConstant2 = 0
+    intConstant3 = 0
+    intConstant4 = 0
+    intConstant5 = 0
+    intConstantName0 = ""
+    intConstantName1 = ""
+    intConstantName2 = ""
+    intConstantName3 = ""
+    intConstantName4 = ""
+    intConstantName5 = ""
+    setMinMaxValues = FALSE
+    minVoxelValue = 0
+    maxVoxelValue = 0
+    setDataType = TRUE
+    dataType = "unsigned int16"
+    inputDataType0 = "input type"
+    inputDataType1 = "output type"
+    inputDataType2 = "output type"
+    inputDataType3 = "output type"
+    inputDataType4 = "output type"
+    inputHandling0 = AllowAny
+    inputHandling1 = AllowAny
+    inputHandling2 = AllowAny
+    inputHandling3 = AllowAny
+    inputHandling4 = AllowAny
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "725 125 120 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1518 917 804 400"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = DiffusionVsConvolution
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 0
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 0
+    timepoint2 = 0
+    lut1w = 932.865600585938
+    lut1c = 439.962493896484
+    lut2w = 932.865600585938
+    lut2c = 439.962493896484
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = FALSE
+    showCurrentPos = FALSE
+    worldPosition = "-12.1789245605469 14.8757781982422 -11.6705017089844"
+    background = "0 0 0"
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "1097 117 128 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1518 917 804 400"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MeanVsMedianFilter
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 62
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 62
+    timepoint2 = 0
+    lut1w = 932.865600585938
+    lut1c = 439.962493896484
+    lut2w = 932.865600585938
+    lut2c = 439.962493896484
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = FALSE
+    showCurrentPos = FALSE
+    worldPosition = "-8.59580993652344 14.0424690246582 85.9715423583984"
+    background = "0 0 0"
+  }
+}
+module AddNoise {
+  internal  {
+    frame = "885 461 88 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1082 606 465 255"
+        sizeHint = "435 255"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = AddNoise
+    amplitude = 100
+    addInput = TRUE
+    randSeed = -1
+    noiseType = Gaussian
+    mean = 0
+    sigma = 50
+    sigmaIn = 0
+    sigmaOut = 0
+    amplitude2 = 100
+    density = 0.050000001
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "461 121 120 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "2737 183 804 400"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = OriginalVsNoisy
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 0
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 0
+    timepoint2 = 0
+    lut1w = 932.865600585938
+    lut1c = 439.962493896484
+    lut2w = 932.865600585938
+    lut2c = 439.962493896484
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = FALSE
+    showCurrentPos = FALSE
+    worldPosition = "-8.59580993652344 14.0424690246582 85.9715423583984"
+    background = "0 0 0"
+  }
+}
+module ImageStatistics {
+  internal  {
+    frame = "213 141 120 56"
+    moduleGroupName = ErrorMeasures
+    windows  {
+      window _default {
+        geometry = "3023 424 559 692"
+        sizeHint = "559 692"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ImageStatistics
+    innerMin = 0
+    innerMax = 1
+    updateMode = AutoUpdate
+    perSlice = FALSE
+    currentSlice = 0
+    lowerWidth = 0
+    upperWidth = 0
+    useMask = FALSE
+  }
+}
+module Arithmetic2 {
+  internal  {
+    frame = "217 277 96 72"
+    moduleGroupName = ErrorMeasures
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "791 523 353 94"
+        sizeHint = "353 94"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Arithmetic2
+    function = Difference
+    outputImageSize = InvalidateOutputIfSizesDiffer
+    constant = 0
+    autoReplicate = FALSE
+  }
+}
+module MinMaxScan {
+  internal  {
+    frame = "1185 197 144 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "3 406 572 369"
+        sizeHint = "549 369"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MinMaxScan2
+    updateMode = AutoUpdate
+    typeSelect = UInt16
+    preferredIntType = PreferUnsigned
+  }
+}
+module MinMaxScan {
+  internal  {
+    frame = "1009 197 144 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "3591 470 572 361"
+        sizeHint = "549 361"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MinMaxScan1
+    updateMode = AutoUpdate
+    typeSelect = UInt16
+    preferredIntType = PreferUnsigned
+  }
+}
+module ImageClear {
+  internal  {
+    frame = "657 565 128 56"
+    moduleGroupName = "Start Calculation"
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "842 486 236 183"
+        sizeHint = "236 183"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ImageClear
+    autoUpdate = FALSE
+  }
+}
+connections  {
+  Convolution.input0 = AddNoise.output0
+  Diffusion.input0 = AddNoise.output0
+  MeanFilter.input0 = AddNoise.output0
+  MedianFilter.input0 = AddNoise.output0
+  DiffusionVsConvolution.inImage1 = Diffusion.output0
+  DiffusionVsConvolution.inImage2 = Convolution.output0
+  MeanVsMedianFilter.inImage1 = MinMaxScan1.output0
+  MeanVsMedianFilter.inImage2 = MinMaxScan2.output0
+  AddNoise.input0 = ImageClear.output0
+  OriginalVsNoisy.inImage1 = ImageClear.output0
+  OriginalVsNoisy.inImage2 = AddNoise.output0
+  ImageStatistics.input0 = Arithmetic2.output0
+  Arithmetic2.input0 = ImageClear.output0
+  Arithmetic2.input1 = Diffusion.output0
+  MinMaxScan2.input0 = MedianFilter.output0
+  MinMaxScan1.input0 = MeanFilter.output0
+  ImageClear.input0 = LocalImage.outImage
+}
+networkModel  {
+  parentItems  {
+    0  {
+      MLABNetworkModelItem MLABNetworkModelItemGroup {
+        uniqueId = 41
+        objectName = ErrorMeasures
+        parentUniqueId = 0
+        color  {
+          r = 45
+          g = 226
+          b = 226
+          a = 40
+        }
+      }
+      MLABNetworkModelItem MLABNetworkModelItemGroup {
+        uniqueId = 37
+        objectName = "Start Calculation"
+        parentUniqueId = 0
+        color  {
+          r = 45
+          g = 226
+          b = 226
+          a = 40
+        }
+      }
+    }
+  }
+}

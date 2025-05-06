@@ -1,0 +1,77 @@
+// MDL v1 utf8
+mevislabVersion = 3.6.1.9
+network  {
+  watchlist = ""
+}
+connections = ""
+networkModel  {
+  parentItems  {
+    0  {
+      MLABNetworkModelItem MLABNoteItem {
+        uniqueId = 48
+        objectName = ""
+        parentUniqueId = 0
+        frame = "214 173 889 662"
+        backgroundColor  {
+          r = 252
+          g = 242
+          b = 2
+          a = 255
+        }
+        text = "1.
+What contrast measure captures the local contrast at object boundaries?
+
+Median filters pick the middle value in a pixel neighborhood instead of averaging. This keeps edges sharp (no blurring) but means noise right at an edge can survive if it lies near the median.
+
+3.
+Why should the Laplace filter be combined with a smoothing filter?
+
+The Laplace filter amplifies high-frequency noise, creating artifacts which will distort the image. Using a smoothing filter beforehand, these effects can be counteracted. 
+
+4.
+What kind of image degradation is associated with the application of a linear low pass filter?
+
+Linear low pass filters cause blurring in images, resulting in the loss of fine details and reduced contrast at object boundaries.
+
+
+5.
+The filter in Task 2 is implemented in 2D. How would it need to be adapted for 3D?
+
+Right now it's using a 5×5 filter; we would need to extend it to another dimension, making it a 5×5×5 filter. This expansion would allow the filter to process volumetric data properly, taking into account voxels in all three dimensions rather than just operating on 2D slices."
+        richText = "*<html>
+  <head>
+    <style type="text/css">
+      a.headerlink {
+        visibility: hidden;
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+
+  <p>1.
+What contrast measure captures the local contrast at object boundaries?</p>
+<p>Median filters pick the middle value in a pixel neighborhood instead of averaging. This keeps edges sharp (no blurring) but means noise right at an edge can survive if it lies near the median.</p>
+<p>3.
+Why should the Laplace filter be combined with a smoothing filter?</p>
+<p>The Laplace filter amplifies high-frequency noise, creating artifacts which will distort the image. Using a smoothing filter beforehand, these effects can be counteracted.</p>
+<p>4.
+What kind of image degradation is associated with the application of a linear low pass filter?</p>
+<p>Linear low pass filters cause blurring in images, resulting in the loss of fine details and reduced contrast at object boundaries.</p>
+<p>5.
+The filter in Task 2 is implemented in 2D. How would it need to be adapted for 3D?</p>
+<p>Right now it's using a 5×5 filter; we would need to extend it to another dimension, making it a 5×5×5 filter. This expansion would allow the filter to process volumetric data properly, taking into account voxels in all three dimensions rather than just operating on 2D slices.</p>
+
+
+  </body>
+</html>*"
+        titleText = "Task 3 Questions"
+        isCollapsed = False
+        drawAsComment = False
+        titleFrame = "219 178 879 22"
+      }
+    }
+  }
+}

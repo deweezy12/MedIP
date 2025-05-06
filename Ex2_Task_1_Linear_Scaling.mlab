@@ -1,0 +1,689 @@
+// MDL v1 utf8
+mevislabVersion = 3.6.1.9
+network  {
+  watchlist = ""
+}
+module LocalImage {
+  internal  {
+    frame = "1369 493 144 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "1648 1034 544 166"
+        sizeHint = "544 166"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = LocalImage1
+    name = $(NETWORK)/ImageData/ProbandT1.dcm
+    autoLoad = TRUE
+  }
+}
+module PythonArithmetic {
+  internal  {
+    frame = "1593 65 128 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "438 608 1283 568"
+        sizeHint = "604 568"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = LinearScaling
+    calculateOutputSubImage = "from itertools import product
+
+# Unpacking a tuple
+ext_x, ext_y, ext_z, ext_c, ext_t, ext_u = extent
+
+print('extent: ', extent)
+print('i_min', i_min)
+print('i_max', i_max)
+print('it_min', it_min)
+print('it_max', it_max)
+
+print('Start processing. This may take a while...')
+
+m = (it_max - it_min)/(i_max - i_min)
+
+# iterate over whole image
+for u, t, c, z, y, x in product(range(ext_u), range(ext_t), range(ext_c), range(ext_z), range(ext_y), range(ext_x)):
+  intensity_value = in0[u, t, c, z, y, x]
+  # compute scaled intensity
+  out[u, t, c, z, y, x] = m * (intensity_value - i_min) + it_min
+
+print('done!')
+
+"
+    calculateInputSubImageBox = "inBox = outBox"
+    calculateOutputImageProperties = "# compute input image min and max intensity
+i_min = inImage0.minVoxelValue()
+i_max = inImage0.maxVoxelValue()
+
+# set target intensities
+it_min = 0
+it_max = 65535
+
+# set page extent to image extent (=compute result for whole image at once)
+extent = inImage0.imageExtent()
+outImage.setPageExtent(extent[0],extent[1],extent[2],extent[3],extent[4],extent[5] )"
+    numberOfInputs = 1
+    doubleConstant0 = 0
+    doubleConstant1 = 0
+    doubleConstant2 = 0
+    doubleConstant3 = 0
+    doubleConstant4 = 0
+    doubleConstant5 = 0
+    doubleConstantName0 = ""
+    doubleConstantName1 = ""
+    doubleConstantName2 = ""
+    doubleConstantName3 = ""
+    doubleConstantName4 = ""
+    doubleConstantName5 = ""
+    intConstant0 = 0
+    intConstant1 = 0
+    intConstant2 = 0
+    intConstant3 = 0
+    intConstant4 = 0
+    intConstant5 = 0
+    intConstantName0 = ""
+    intConstantName1 = ""
+    intConstantName2 = ""
+    intConstantName3 = ""
+    intConstantName4 = ""
+    intConstantName5 = ""
+    setMinMaxValues = FALSE
+    minVoxelValue = 0
+    maxVoxelValue = 0
+    setDataType = TRUE
+    dataType = "unsigned int16"
+    inputDataType0 = "input type"
+    inputDataType1 = "output type"
+    inputDataType2 = "output type"
+    inputDataType3 = "output type"
+    inputDataType4 = "output type"
+    inputHandling0 = AllowAny
+    inputHandling1 = AllowAny
+    inputHandling2 = AllowAny
+    inputHandling3 = AllowAny
+    inputHandling4 = AllowAny
+  }
+}
+module MinMaxScan {
+  internal  {
+    frame = "1461 205 152 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "694 393 572 369"
+        sizeHint = "549 369"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MinMaxScan1
+    updateMode = AutoUpdate
+    typeSelect = "Proposed Data Type"
+    preferredIntType = PreferUnsigned
+  }
+}
+module View3D {
+  internal  {
+    frame = "1529 -379 144 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "417 200 1103 755"
+        sizeHint = "1103 755"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = View3D1
+    autoViewAll = TRUE
+    inventorInputOn = TRUE
+    inventorOutputOn = FALSE
+    lutType = Ramp
+    rendererType = Slicer
+    currentTimePoint = 0
+    staticSamplingRate = 1
+    quality = 1
+    filterVolumeData = FilterLinear
+    lutEditorColorPoints = "[ 0 0 0 0, 4095 1 1 1 ]"
+    lutEditorAlphaPoints = "[ 0 0, 4095 1 ]"
+    lutEditorRelativeLut = FALSE
+    lutEditorColorInterpolation = InterpolateRGB
+    lutEditorAlphaFactor = 1
+    orientationProjectionType = PERSPECTIVE
+    orientationLocation = LOWER_RIGHT
+    orientationOn = TRUE
+    orientationModel = CUBE
+    greyCenter = 0.00999999977648258
+    greyWidth = 0.987500011920929
+    alphaFactor = 1
+    colorFactor = "1 1 1"
+    camType = TRUE
+    camPosition = "-398.364501953125 56.3381042480469 -134.550506591797"
+    camOrientation = "-0.590828239917755 0.64922159910202 0.478991985321045 3.8148934841156"
+    initialCameraOrientation = CAMERA_KEEP_AS_IS
+    camFar = 562.07904
+    camNear = 315.42227
+    camFocal = 438.62775
+    camHeight = 0.78539801
+    decoration = FALSE
+    annotations = TRUE
+    background = TRUE
+    mode = VolumeRendering
+    interactiveQuality = High
+  }
+  internalFields  {
+    renderer.gradientQuality = GradientQualityAutomatic
+    renderer.enhancementAlphaMix = 0.25
+    renderer.boundaryEnhancement = FALSE
+    renderer.boundaryEnhancementFactor = 1
+    renderer.boundaryEnhancementExponent = 1
+    renderer.boundaryEnhancementGradientBias = 0
+    renderer.silhouetteEnhancement = FALSE
+    renderer.silhouetteEnhancementExponent = 1
+    renderer.silhouetteEnhancementFactor = 1
+    renderer.toneShading = FALSE
+    renderer.toneShadingWarmColor = "0.67451000213623 0.533333003520966 0.141176000237465"
+    renderer.toneShadingColdColor = "0 0 0.400000005960464"
+    renderer.toneShadingWarmDiffuse = 0.60000002
+    renderer.toneShadingColdDiffuse = 0.2
+    renderer.toneShadingAngle = 45
+    renderer.materialAmbient = 0.60000002
+    renderer.materialDiffuse = 1
+    renderer.materialSpecular = 1
+    renderer.materialSpecularity = 32
+    renderer.light1Enabled = TRUE
+    renderer.light1DiffuseIntensity = 1
+    renderer.light1SpecularIntensity = 1
+    renderer.light1Color = "1 1 1"
+    renderer.light1PolarPhi = 45
+    renderer.light1PolarRho = 0
+    renderer.light2Enabled = FALSE
+    renderer.light2DiffuseIntensity = 1
+    renderer.light2SpecularIntensity = 1
+    renderer.light2Color = "1 1 1"
+    renderer.light2PolarPhi = 0
+    renderer.light2PolarRho = 0
+    renderer.light3Enabled = FALSE
+    renderer.light3DiffuseIntensity = 1
+    renderer.light3SpecularIntensity = 1
+    renderer.light3Color = "1 1 1"
+    renderer.light3PolarPhi = -45
+    renderer.light3PolarRho = 0
+    renderer.sizeOutputX = 109
+    renderer.sizeOutputY = 91
+    renderer.sizeOutputZ = 80
+    renderer.subVolumeStartX = 0
+    renderer.subVolumeStartY = 0
+    renderer.subVolumeStartZ = 0
+    renderer.subVolumeEndX = 109
+    renderer.subVolumeEndY = 91
+    renderer.subVolumeEndZ = 80
+    clip.hideGeometry = FALSE
+    clip.on = FALSE
+    clip.left = FALSE
+    clip.right = FALSE
+    clip.top = FALSE
+    clip.bottom = FALSE
+    clip.rear = FALSE
+    clip.front = FALSE
+    clip.translation0 = "1 0 0"
+    clip.translation1 = "-1 0 0"
+    clip.translation2 = "0 1 0"
+    clip.translation3 = "0 -1 0"
+    clip.translation4 = "0 0 1"
+    clip.translation5 = "0 0 -1"
+    clip.rotation0 = "0 0 0.999999940395355 1.57079994678497"
+    clip.rotation1 = "0 0 -0.999999940395355 1.57079994678497"
+    clip.rotation2 = "0 0 -1 3.1415901184082"
+    clip.rotation3 = "0 0 1 0"
+    clip.rotation4 = "-0.999999940395355 0 0 1.57079994678497"
+    clip.rotation5 = "0.999999940395355 0 0 1.57079994678497"
+  }
+}
+module MinMaxScan {
+  internal  {
+    frame = "1617 -59 160 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "1585 841 568 361"
+        sizeHint = "545 361"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = MinMaxScan2
+    updateMode = AutoUpdate
+    typeSelect = UInt16
+    preferredIntType = PreferUnsigned
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "1101 -379 120 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1518 917 804 400"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+      window _automatic {
+        geometry = "927 110 500 595"
+        sizeHint = "260 223"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SynchroView2D
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 48
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 48
+    timepoint2 = 0
+    lut1w = 932.865600585938
+    lut1c = 439.962493896484
+    lut2w = 7208.9404296875
+    lut2c = 13106.974609375
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = FALSE
+    showCurrentPos = FALSE
+    worldPosition = "-8.59580993652344 14.0424690246582 85.9715423583984"
+    background = "0 0 0"
+  }
+}
+module SoDiagram2D {
+  internal  {
+    frame = "1305 -211 112 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "2505 375 652 750"
+        sizeHint = "652 750"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SoDiagram2D
+    minX = 0
+    maxX = 65535
+    minY = 0
+    maxY = 33380
+    scaleX = 1
+    scaleY = 1
+    autoRangeX = TRUE
+    autoRangeY = TRUE
+    axisColor = "1 1 1"
+    axisRotation = AXIS_ROTATION_LEFT_BOTTOM
+    titleFontHeight = 14
+    drawDiagramTitle = FALSE
+    diagramTitleString = ""
+    drawGrid = FALSE
+    gridColor = "0.349999994039536 0.349999994039536 0.349999994039536"
+    drawLegend = FALSE
+    legendPlacement = LEGEND_UPPER_RIGHT
+    legendFontHeight = 12
+    autoLimitLegendFontHeight = FALSE
+    zoomAnimationEase = 0.5
+    zoomAnimationEpsilon = 0.0099999998
+    useZoomRestrictions = FALSE
+    minZoomFactor = 0.1
+    maxZoomFactor = 10
+    drawChildrenExtensions = TRUE
+    forwardEventsToChildrenExtensions = TRUE
+    changeLineOpacityForHighlightedCurves = FALSE
+    curveLineOpacityHighlighted = 1
+    changeAreaOpacityForHighlightedCurves = FALSE
+    curveAreaOpacityHighlighted = 1
+    changeLineOpacityForNotHighlightedCurves = FALSE
+    curveLineOpacityNotHighlighted = 0.30000001
+    changeAreaOpacityForNotHighlightedCurves = FALSE
+    curveAreaOpacityNotHighlighted = 0.30000001
+    changeLineStyleForHighlightedCurves = FALSE
+    curveLineStyleHighlighted = 1
+    changeLineStyleForNotHighlightedCurves = FALSE
+    curveLineStyleNotHighlighted = 1
+    changeLineWidthForHighlightedCurves = FALSE
+    curveLineWidthHighlighted = 1
+    changeLineWidthForNotHighlightedCurves = FALSE
+    curveLineWidthNotHighlighted = 1
+    curveIndexHighlighted = ""
+    reorderHighlightedCurves = FALSE
+    borderH = 48
+    borderV = 28
+    autoBorderH = TRUE
+    autoBorderV = TRUE
+    drawAxisX = TRUE
+    drawAxisY = TRUE
+    drawTicksX = TRUE
+    drawTicksY = TRUE
+    drawLabelsX = TRUE
+    drawLabelsY = TRUE
+    drawAxisTitleX = FALSE
+    drawAxisTitleY = FALSE
+    axisTitleStringX = "X [dn]"
+    axisTitleStringY = "Y [dn]"
+    axisTitleFontHeightX = 12
+    axisTitleFontHeightY = 12
+    axisLabelFontHeightX = 12
+    axisLabelFontHeightY = 12
+    tickMinDistance = 30
+    curveColor = "0.333333343267441 1 0"
+    lineStyle = LINE_STYLE_SOLID
+    markerType = MARKER_TYPE_NONE
+    markerSize = 10
+    lineWidth = 1
+    antiAlias = TRUE
+    areaOpacity = 0.5
+    lineOpacity = 1
+    stylePaletteMode = STYLE_PALETTE_INDEX
+  }
+}
+module SoRenderArea {
+  internal  {
+    frame = "1145 -211 112 56"
+    moduleGroupName = ""
+    windows  {
+      window _viewer {
+        geometry = "777 344 1857 1209"
+        sizeHint = "400 400"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SoRenderArea
+    renderCaching = AUTO
+    boundingBoxCaching = AUTO
+    renderCulling = AUTO
+    pickCulling = AUTO
+    border = FALSE
+    background = "0 0 0"
+    transparency = DELAYED_BLEND
+    antialiasing = FALSE
+    antialiasingNumPasses = 1
+    useSampleBuffers = FALSE
+    numSamples = 8
+    grabKeyFocus = TRUE
+    enableKeyCommands = TRUE
+    snapshotFormat = SNAPSHOT_RGB
+    outputAviFile = ""
+    autoRedrawWhenRecording = TRUE
+    frameRate = 7
+    frameRateAvi = 15
+    outputSnapshotFile = none
+    outputSnapshotFileWritten = none
+    autoIncreaseFile = TRUE
+    showSnapshotWithShell = FALSE
+    snapCount = 0
+    inputDevicesList = ""
+  }
+}
+module StylePalette {
+  internal  {
+    frame = "1389 -75 104 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "70 89 632 433"
+        sizeHint = "632 433"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = StylePalette0
+    color1 = "1 1 0"
+    color2 = "1 0 0"
+    color3 = "0 0 1"
+    color4 = "0 1 0"
+    color5 = "1 0.5 0"
+    color6 = "1 0 1"
+    color7 = "0 1 1"
+    color8 = "0.5 1 0.5"
+    color9 = "1 0 0.5"
+    color10 = "0.5 1 0"
+    color11 = "0.5 0 1"
+    color12 = "0 1 0.5"
+    lineStyle1 = Solid
+    lineStyle2 = Solid
+    lineStyle3 = Solid
+    lineStyle4 = Solid
+    lineStyle5 = Solid
+    lineStyle6 = Solid
+    lineStyle7 = Solid
+    lineStyle8 = Solid
+    lineStyle9 = Solid
+    lineStyle10 = Solid
+    lineStyle11 = Solid
+    lineStyle12 = Solid
+    lineWidth1 = 2
+    lineWidth2 = 2
+    lineWidth3 = 2
+    lineWidth4 = 2
+    lineWidth5 = 2
+    lineWidth6 = 2
+    lineWidth7 = 2
+    lineWidth8 = 2
+    lineWidth9 = 2
+    lineWidth10 = 2
+    lineWidth11 = 2
+    lineWidth12 = 2
+    markerType1 = None
+    markerType2 = None
+    markerType3 = None
+    markerType4 = None
+    markerType5 = None
+    markerType6 = None
+    markerType7 = None
+    markerType8 = None
+    markerType9 = None
+    markerType10 = None
+    markerType11 = None
+    markerType12 = None
+    markerSize1 = 4
+    markerSize2 = 4
+    markerSize3 = 4
+    markerSize4 = 4
+    markerSize5 = 4
+    markerSize6 = 4
+    markerSize7 = 4
+    markerSize8 = 4
+    markerSize9 = 4
+    markerSize10 = 4
+    markerSize11 = 4
+    markerSize12 = 4
+    antiAlias1 = TRUE
+    antiAlias2 = TRUE
+    antiAlias3 = TRUE
+    antiAlias4 = TRUE
+    antiAlias5 = TRUE
+    antiAlias6 = TRUE
+    antiAlias7 = TRUE
+    antiAlias8 = TRUE
+    antiAlias9 = TRUE
+    antiAlias10 = TRUE
+    antiAlias11 = TRUE
+    antiAlias12 = TRUE
+    name1 = ""
+    name2 = ""
+    name3 = ""
+    name4 = ""
+    name5 = ""
+    name6 = ""
+    name7 = ""
+    name8 = ""
+    name9 = ""
+    name10 = ""
+    name11 = ""
+    name12 = ""
+    currentStyle = 0
+    currentColor = "1 1 1"
+    currentLineStyle = None
+    currentLineWidth = 1
+    currentMarkerType = None
+    currentMarkerSize = 4
+    currentAntiAlias = FALSE
+    currentName = ""
+    reservedEntries = 1
+  }
+}
+module Histogram {
+  internal  {
+    frame = "1381 45 88 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "2738 210 477 415"
+        sizeHint = "477 415"
+        wasOpen = no
+      }
+      window _automatic {
+        geometry = "2630 270 500 600"
+        sizeHint = "260 223"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Histogram
+    useMask = FALSE
+    xRange = "Dynamic Min/Max"
+    maskMode = Labels
+    curveType = Line
+    curveStyle = 0
+    curveTitle = ""
+    updateMode = AutoUpdate
+    useStepFunction = FALSE
+    useZeroAsBinCenter = TRUE
+    useBackgroundValue = FALSE
+    backgroundValue = 0
+    binSize = 1
+    maxBinCount = 25000000
+  }
+}
+module ImageSwitch {
+  internal  {
+    frame = "1529 -187 144 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "1569 1066 702 102"
+        sizeHint = "702 102"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ImageSwitch
+    numberOfInputs = 2
+    currentInput = 1
+    numberOfOutputs = 1
+    currentOutput = 0
+  }
+}
+module HistogramParameters {
+  internal  {
+    frame = "1205 -83 152 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1604 700 770 835"
+        sizeHint = "632 835"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = HistogramParameters
+    normalize = FALSE
+    normalize100 = FALSE
+    quantileArg = 5
+    quantile2Arg = 95
+    fwhmPosition = 1
+    startPos = 0
+    endPos = 0
+    useStepFunction = FALSE
+  }
+}
+module ImageClear {
+  internal  {
+    frame = "934 101 128 56"
+    moduleGroupName = "Start Calculation"
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "2367 738 185 157"
+        sizeHint = "185 157"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = ImageClear
+    autoUpdate = TRUE
+  }
+}
+connections  {
+  LinearScaling.input0 = MinMaxScan1.output0
+  MinMaxScan1.input0 = ImageClear.output0
+  View3D1.inImage = ImageSwitch.output0
+  MinMaxScan2.input0 = LinearScaling.output0
+  SynchroView2D.inImage1 = ImageClear.output0
+  SynchroView2D.inImage2 = ImageSwitch.output0
+  SynchroView2D.lut2w = HistogramParameters.standardDev
+  SynchroView2D.lut2c = HistogramParameters.meanPos
+  SoDiagram2D.inCurveList = HistogramParameters.outHistogramCurve
+  SoDiagram2D.inStylePalette = StylePalette0.outStylePalette
+  SoRenderArea.children = SoDiagram2D.self
+  Histogram.input0 = ImageSwitch.output0
+  ImageSwitch.input0 = MinMaxScan1.output0
+  ImageSwitch.input1 = MinMaxScan2.output0
+  HistogramParameters.inHistogram = Histogram.outputHistogram
+  ImageClear.input0 = LocalImage1.outImage
+}
+networkModel  {
+  parentItems  {
+    0  {
+      MLABNetworkModelItem MLABNetworkModelItemGroup {
+        uniqueId = 37
+        objectName = "Start Calculation"
+        parentUniqueId = 0
+        color  {
+          r = 45
+          g = 226
+          b = 226
+          a = 40
+        }
+      }
+    }
+  }
+}
