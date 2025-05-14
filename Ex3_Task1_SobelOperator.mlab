@@ -1,0 +1,382 @@
+// MDL v1 utf8
+mevislabVersion = 3.6.1.9
+network  {
+  watchlist = ""
+}
+module LocalImage {
+  internal  {
+    frame = "993 365 128 56"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "967 527 613 170"
+        sizeHint = "613 170"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = LocalImage
+    name = $(DemoDataPath)/BrainMultiModal/ProbandT1.dcm
+    autoLoad = TRUE
+  }
+}
+module Arithmetic {
+  internal  {
+    frame = "977 -115 128 72"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "500 682 714 566"
+        sizeHint = "682 567"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Arithmetic
+    expression = "sqrt(a*a+b*b+c*c)"
+    i1 = 0
+    i2 = 0
+    i3 = 0
+    i4 = 0
+    i5 = 0
+    i6 = 0
+    d1 = 0
+    d2 = 0
+    d3 = 0
+    d4 = 0
+    d5 = 0
+    d6 = 0
+    d7 = 0
+    d8 = 0
+    d9 = 0
+    d10 = 0
+    d11 = 0
+    d12 = 0
+    minValue = 0
+    maxValue = 1
+    setMinMaxValues = FALSE
+    dataType = int8
+    setDataType = FALSE
+    updateMode = AutoUpdate
+    applyMode = AutoApply
+    domainErrorHandling = ErrorMessage
+    numberOfInputs = 3
+    expressionComment = ""
+    scalarVariablesComment = ""
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "893 -203 120 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "2114 151 804 376"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SynchroView2D
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 12
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 0
+    timepoint2 = 0
+    lut1w = 932.865600585938
+    lut1c = 439.962493896484
+    lut2w = 1
+    lut2c = 0
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = FALSE
+    showCurrentPos = FALSE
+    worldPosition = "-8.59580993652344 14.0424690246582 85.9715423583984"
+    background = "0 0 0"
+  }
+}
+module PythonImage {
+  internal  {
+    frame = "845 41 104 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "996 722 444 60"
+        sizeHint = "444 60"
+        wasOpen = no
+      }
+      window _automatic {
+        geometry = "3390 457 500 600"
+        sizeHint = "260 228"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SobelX
+  }
+}
+module RunPythonScript {
+  internal  {
+    frame = "665 317 160 56"
+    moduleGroupName = ""
+    showNetworkPanel = true
+    windows  {
+      window _default {
+        geometry = "321 315 1131 1325"
+        sizeHint = "745 321"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = RunPythonScript
+    in0 = ""
+    in1 = ""
+    in2 = ""
+    in3 = ""
+    in4 = ""
+    in5 = ""
+    in6 = ""
+    in7 = ""
+    in8 = ""
+    in9 = ""
+    inComment0 = in0
+    inComment1 = in1
+    inComment2 = in2
+    inComment3 = in3
+    inComment4 = in4
+    inComment5 = in5
+    inComment6 = in6
+    inComment7 = in7
+    inComment8 = in8
+    inComment9 = in9
+    autoApply0 = TRUE
+    autoApply1 = TRUE
+    autoApply2 = TRUE
+    autoApply3 = TRUE
+    autoApply4 = TRUE
+    autoApply5 = TRUE
+    autoApply6 = TRUE
+    autoApply7 = TRUE
+    autoApply8 = TRUE
+    autoApply9 = TRUE
+    out0 = ""
+    out1 = ""
+    out2 = ""
+    out3 = ""
+    out4 = ""
+    out5 = ""
+    out6 = ""
+    out7 = ""
+    out8 = ""
+    out9 = ""
+    outComment0 = out0
+    outComment1 = out1
+    outComment2 = out2
+    outComment3 = out3
+    outComment4 = out4
+    outComment5 = out5
+    outComment6 = out6
+    outComment7 = out7
+    outComment8 = out8
+    outComment9 = out9
+    initCode = "# For backward compatibility, set up CTX as alias for ctx
+CTX = ctx # ctx is the network's context, not RunPythonScript's"
+    wakeUpCode = ""
+    code = "*from itertools import product
+import numpy as np
+
+# Get the original image data
+extent = ctx.field("Resample3D.output0").size6D()
+worldMatrix = ctx.field("Resample3D.output0").voxelToWorldMatrix()
+img = ctx.field("Resample3D.output0").image()
+tile = img.getTile((0, 0, 0, 0, 0, 0), extent)
+
+# TASK: Implement Sobel operator in all image directions
+ext_x, ext_y, ext_z, ext_c, ext_t, ext_u = extent
+
+# 3x3x3 sobel in x
+stencil_size = (3,3,3)
+
+# SUBTASK 1: Fill in weightes (coefficients) of Sobel kernel (in X, Y and Z directions)
+stencilX = np.array([[[-1,-3,-1],[-3,-6,-3],[-1,-3,-1]],
+                      [[0,0,0],[0,0,0],[0,0,0]],
+                      [[1,3,1],[3,6,3],[1,3,1]]])
+
+print("stencil: " + str(stencilX))
+print("start")
+
+# transpose x stencil to y and z
+stencilY = np.transpose(stencilX, (1, 0, 2))
+stencilZ = np.transpose(stencilX, (2, 1, 0))
+
+# init response arrays
+sobelXResponse = np.zeros(tile.shape)
+sobelYResponse = np.zeros(tile.shape)
+sobelZResponse = np.zeros(tile.shape)
+
+for u, t, c, z, y, x in product(range(ext_u), range(ext_t), range(ext_c), range(ext_z), range(ext_y), range(ext_x)):
+    value = tile[u, t, c, z, y, x]
+
+    # SUBTASK 2: Implement the convolution of the Sobel kernel and the image
+    resultX = 0.0
+    resultY = 0.0 
+    resultZ = 0.0
+    normX = 0
+    normY = 0
+    normZ = 0
+    
+    # Calculate half size for kernel centering
+    half_size = 1  # For 3x3x3 kernel
+    
+    # Perform convolution
+    for kz in range(3):
+        z_pos = z + kz - half_size
+        if z_pos < 0 or z_pos >= ext_z:
+            continue
+            
+        for ky in range(3):
+            y_pos = y + ky - half_size
+            if y_pos < 0 or y_pos >= ext_y:
+                continue
+                
+            for kx in range(3):
+                x_pos = x + kx - half_size
+                if x_pos < 0 or x_pos >= ext_x:
+                    continue
+                    
+                # Get pixel value
+                pixel = tile[u, t, c, z_pos, y_pos, x_pos]
+                
+                # Apply kernel weights
+                wx = stencilX[kz, ky, kx]
+                wy = stencilY[kz, ky, kx]
+                wz = stencilZ[kz, ky, kx]
+                
+                resultX += pixel * wx
+                resultY += pixel * wy
+                resultZ += pixel * wz
+                
+                # Add absolute weights for normalization
+                normX += abs(wx)
+                normY += abs(wy)
+                normZ += abs(wz)
+    
+    # Normalize by sum of weights (avoid division by zero)
+    sobelXResponse[u, t, c, z, y, x] = resultX / max(normX, 1)
+    sobelYResponse[u, t, c, z, y, x] = resultY / max(normY, 1) 
+    sobelZResponse[u, t, c, z, y, x] = resultZ / max(normZ, 1)
+
+print("finished")
+
+# Set the filter response
+pi = ctx.module("SobelX").call("getInterface")
+minVoxelValueX = sobelXResponse.min()
+maxVoxelValueX = sobelXResponse.max()
+pi.setImage(sobelXResponse, minMaxValues = (minVoxelValueX, maxVoxelValueX), voxelToWorldMatrix = worldMatrix)
+
+pi = ctx.module("SobelY").call("getInterface")
+minVoxelValueY = sobelYResponse.min()
+maxVoxelValueY = sobelYResponse.max()
+pi.setImage(sobelYResponse, minMaxValues = (minVoxelValueY, maxVoxelValueY), voxelToWorldMatrix = worldMatrix)
+
+pi = ctx.module("SobelZ").call("getInterface")
+minVoxelValueZ = sobelZResponse.min()
+maxVoxelValueZ = sobelZResponse.max()
+pi.setImage(sobelZResponse, minMaxValues = (minVoxelValueZ, maxVoxelValueZ), voxelToWorldMatrix = worldMatrix)
+
+
+
+
+*"
+    finalizeCode = ""
+    showFields = FALSE
+    showInitCode = FALSE
+    showWakeUpCode = FALSE
+    showCode = TRUE
+    showFinalizeCode = FALSE
+    showConsole = FALSE
+  }
+}
+module PythonImage {
+  internal  {
+    frame = "969 53 112 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1009 722 543 70"
+        sizeHint = "543 70"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SobelY
+  }
+}
+module PythonImage {
+  internal  {
+    frame = "1121 53 112 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1009 722 543 70"
+        sizeHint = "543 70"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SobelZ
+  }
+}
+module Resample3D {
+  internal  {
+    frame = "1005 221 104 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1082 560 342 340"
+        sizeHint = "342 340"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Resample3D
+    keep = "Scale factor"
+    filter = Lanczos_3
+    isotropic = FALSE
+    filterAlways = FALSE
+    filterAlwaysTolerance = 0
+    zoom = "0.5 0.5 0.5"
+    imageSize = "55 46 40"
+    voxelSize = "3.90624 3.90626 4"
+    subVoxelShift = "0 0 0"
+    useReferenceImage = FALSE
+  }
+}
+connections  {
+  Arithmetic.input0 = SobelX.output0
+  Arithmetic.input1 = SobelY.output0
+  Arithmetic.input2 = SobelZ.output0
+  SynchroView2D.inImage1 = Resample3D.output0
+  SynchroView2D.inImage2 = Arithmetic.output0
+  Resample3D.input0 = LocalImage.outImage
+}
+networkModel = ""
