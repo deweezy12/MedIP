@@ -1,0 +1,257 @@
+// MDL v1 utf8
+mevislabVersion = 3.5legacy
+network  {
+  watchlist = ""
+}
+module Arithmetic2 {
+  internal  {
+    frame = "861 30 131 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "538 147 215 83"
+        sizeHint = "215 83"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = OriginalAndScaled
+    function = Difference
+    outputImageSize = AdaptOutputImageSize
+    constant = 0
+    autoReplicate = FALSE
+  }
+}
+module Arithmetic2 {
+  internal  {
+    frame = "1002 26 152 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "538 147 215 83"
+        sizeHint = "215 83"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = OriginalAndRegistered
+    function = Difference
+    outputImageSize = AdaptOutputImageSize
+    constant = 0
+    autoReplicate = FALSE
+  }
+}
+module SynchroView2D {
+  internal  {
+    frame = "932 -67 117 50"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "890 527 804 400"
+        sizeHint = "804 400"
+        wasOpen = no
+      }
+      window Settings {
+        geometry = "693 530 543 181"
+        sizeHint = "543 181"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = SynchroView2D
+    leftInventorInputOn = FALSE
+    rightInventorInputOn = FALSE
+    synchSlicing = TRUE
+    synchZooming = TRUE
+    synchTiming = TRUE
+    synchLUTs = FALSE
+    disconnectOnHide = TRUE
+    snapToCenter1 = FALSE
+    snapToCenter2 = FALSE
+    slice1 = 0
+    timepoint1 = 0
+    filterMode = FILTER_LINEAR
+    slice2 = 0
+    timepoint2 = 0
+    lut1w = 4095
+    lut1c = 2047.5
+    lut2w = 1
+    lut2c = 0.247500061988831
+    annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
+    borderOn = FALSE
+    drawCurrentPos = TRUE
+    showCurrentPos = TRUE
+    worldPosition = "74.5732345581055 114.479797363281 -93"
+    background = "0 0 0"
+  }
+}
+module LocalImage {
+  internal  {
+    frame = "994 361 94 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "26 59 499 199"
+        sizeHint = "499 199"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Scaled
+    name = "$(MLAB_FMEwork_ITK)\\Modules\\ML\\ITKExtras\\networks\\images/scale_4slices.tif"
+    autoLoad = TRUE
+  }
+}
+module LocalImage {
+  internal  {
+    frame = "890 361 94 64"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "26 59 499 199"
+        sizeHint = "499 199"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = Original
+    name = "$(MLAB_FMEwork_ITK)\\Modules\\ML\\ITKExtras\\networks\\images\\4_slices.tif"
+    autoLoad = TRUE
+  }
+}
+module itkLinearInterpolateImageFunction {
+  internal  {
+    frame = "605 365 216 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "92 146 153 74"
+        sizeHint = "153 74"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = itkLinearInterpolateImageFunction
+    status = "Output is valid"
+  }
+}
+module itkMeanSquaresImageToImageMetric {
+  internal  {
+    frame = "601 181 240 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "517 529 675 591"
+        sizeHint = "424 591"
+        wasOpen = no
+      }
+      window _automatic {
+        geometry = "1113 389 702 600"
+        sizeHint = "260 223"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = itkMeanSquaresImageToImageMetric
+    minValue = 0
+    maxValue = 4095
+    applyMinMax = FALSE
+    autoSetMinMax = TRUE
+    clampOutImageValues = FALSE
+    lowerOutSideMode = MinValue
+    upperOutSideMode = MaxValue
+    lowerOutSideValue = 0
+    upperOutSideValue = 1
+    status = "Output is invalid"
+    computeGradient = TRUE
+    useCachingOfBSplineWeights = TRUE
+    fixedImageRegion = "0 0 0 0 0 0 180 216 3 0 0 0"
+    useFixedImageIndexes = FALSE
+    numberOfFixedImageSamples = 0
+    numberOfSpatialSamples = 0
+    fixedImageSamplesIntensityThreshold = 0
+    useFixedImageSamplesIntensityThreshold = FALSE
+    useAllPixels = TRUE
+    useSequentialSampling = TRUE
+    updateFixedImageRegion = Always
+  }
+}
+module itkRegularStepGradientDescentOptimizer {
+  internal  {
+    frame = "457 37 256 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "16 65 1394 493"
+        sizeHint = "378 477"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = itkRegularStepGradientDescentOptimizer
+    maximize = FALSE
+    maximumStepLength = 0.01
+    minimumStepLength = 0.0001
+    relaxationFactor = 0.5
+    numberOfIterations = 300
+    gradientMagnitudeTolerance = 0.0001
+    initialPosition = "1 0 0 0 1 0 0 0 1 0 0 0 "
+    scales = "1 1 1 1 1 1 1 1 1 1 1 1 "
+    status = "Not started."
+  }
+}
+module itkAffineTransform {
+  internal  {
+    frame = "441 365 128 56"
+    moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "482 323 1159 391"
+        sizeHint = "338 391"
+        wasOpen = no
+      }
+    }
+  }
+  fields  {
+    instanceName = itkAffineTransform
+    matrix = "1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 0"
+    offset = "0 0 0"
+    center = "0 0 0"
+    translation = "0 0 0"
+    parameters = "1 0 0 0 1 0 0 0 1 0 0 0 "
+    fixedParameters = "0 0 0 "
+    status = "Output is valid"
+  }
+}
+module itkTranslationTransform {
+  internal  {
+    frame = "241 363 157 50"
+    moduleGroupName = ""
+  }
+  fields  {
+    instanceName = itkTranslationTransform
+    parameters = "0 0 0 "
+    offset = "0 0 0"
+    status = "Output is valid"
+  }
+}
+connections  {
+  OriginalAndScaled.input0 = Original.outImage
+  OriginalAndScaled.input1 = Scaled.outImage
+  OriginalAndRegistered.input0 = Original.outImage
+  OriginalAndRegistered.input1 = itkMeanSquaresImageToImageMetric.output0
+  SynchroView2D.inImage1 = OriginalAndScaled.output0
+  SynchroView2D.inImage2 = OriginalAndRegistered.output0
+}
+networkModel = ""
