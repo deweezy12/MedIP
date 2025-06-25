@@ -1,5 +1,5 @@
 // MDL v1 utf8
-mevislabVersion = 3.5legacy
+mevislabVersion = 3.6.1.9
 network  {
   watchlist = ""
 }
@@ -45,11 +45,11 @@ module Arithmetic2 {
 }
 module SynchroView2D {
   internal  {
-    frame = "932 -67 117 50"
+    frame = "933 -67 120 56"
     moduleGroupName = ""
     windows  {
       window _default {
-        geometry = "890 527 804 400"
+        geometry = "2450 878 804 400"
         sizeHint = "804 400"
         wasOpen = no
       }
@@ -71,20 +71,20 @@ module SynchroView2D {
     disconnectOnHide = TRUE
     snapToCenter1 = FALSE
     snapToCenter2 = FALSE
-    slice1 = 0
+    slice1 = 3
     timepoint1 = 0
     filterMode = FILTER_LINEAR
-    slice2 = 0
+    slice2 = 3
     timepoint2 = 0
     lut1w = 4095
     lut1c = 2047.5
-    lut2w = 1
-    lut2c = 0.247500061988831
+    lut2w = 4095
+    lut2c = 2047.5
     annotationColor = "0.899999976158142 0.899999976158142 0.899999976158142"
     borderOn = FALSE
     drawCurrentPos = TRUE
     showCurrentPos = TRUE
-    worldPosition = "74.5732345581055 114.479797363281 -93"
+    worldPosition = "95.9444427490234 110.09595489502 -93"
     background = "0 0 0"
   }
 }
@@ -102,13 +102,13 @@ module LocalImage {
   }
   fields  {
     instanceName = Scaled
-    name = "$(MLAB_FMEwork_ITK)\\Modules\\ML\\ITKExtras\\networks\\images/scale_4slices.tif"
+    name = $(NETWORK)/data/scale_4slices.dcm
     autoLoad = TRUE
   }
 }
 module LocalImage {
   internal  {
-    frame = "890 361 94 64"
+    frame = "873 361 96 64"
     moduleGroupName = ""
     windows  {
       window _default {
@@ -120,7 +120,7 @@ module LocalImage {
   }
   fields  {
     instanceName = Original
-    name = "$(MLAB_FMEwork_ITK)\\Modules\\ML\\ITKExtras\\networks\\images\\4_slices.tif"
+    name = $(NETWORK)/data/4_slices.dcm
     autoLoad = TRUE
   }
 }
@@ -130,8 +130,8 @@ module itkLinearInterpolateImageFunction {
     moduleGroupName = ""
     windows  {
       window _default {
-        geometry = "92 146 153 74"
-        sizeHint = "153 74"
+        geometry = "92 146 148 68"
+        sizeHint = "146 68"
         wasOpen = no
       }
     }
@@ -147,7 +147,7 @@ module itkMeanSquaresImageToImageMetric {
     moduleGroupName = ""
     windows  {
       window _default {
-        geometry = "517 529 675 591"
+        geometry = "1691 850 854 684"
         sizeHint = "424 591"
         wasOpen = no
       }
@@ -169,28 +169,28 @@ module itkMeanSquaresImageToImageMetric {
     upperOutSideMode = MaxValue
     lowerOutSideValue = 0
     upperOutSideValue = 1
-    status = "Output is invalid"
+    status = "Output image updated"
     computeGradient = TRUE
     useCachingOfBSplineWeights = TRUE
     fixedImageRegion = "0 0 0 0 0 0 180 216 3 0 0 0"
     useFixedImageIndexes = FALSE
-    numberOfFixedImageSamples = 0
+    numberOfFixedImageSamples = -2
     numberOfSpatialSamples = 0
-    fixedImageSamplesIntensityThreshold = 0
+    fixedImageSamplesIntensityThreshold = 1
     useFixedImageSamplesIntensityThreshold = FALSE
-    useAllPixels = TRUE
+    useAllPixels = FALSE
     useSequentialSampling = TRUE
     updateFixedImageRegion = Always
   }
 }
 module itkRegularStepGradientDescentOptimizer {
   internal  {
-    frame = "457 37 256 56"
+    frame = "457 45 256 56"
     moduleGroupName = ""
     windows  {
       window _default {
-        geometry = "16 65 1394 493"
-        sizeHint = "378 477"
+        geometry = "1682 962 1024 533"
+        sizeHint = "701 477"
         wasOpen = no
       }
     }
@@ -198,14 +198,14 @@ module itkRegularStepGradientDescentOptimizer {
   fields  {
     instanceName = itkRegularStepGradientDescentOptimizer
     maximize = FALSE
-    maximumStepLength = 0.01
+    maximumStepLength = 1
     minimumStepLength = 0.0001
-    relaxationFactor = 0.5
-    numberOfIterations = 300
+    relaxationFactor = 0.6
+    numberOfIterations = 500
     gradientMagnitudeTolerance = 0.0001
-    initialPosition = "1 0 0 0 1 0 0 0 1 0 0 0 "
-    scales = "1 1 1 1 1 1 1 1 1 1 1 1 "
-    status = "Not started."
+    initialPosition = "0 0 0 "
+    scales = "1 1 1 "
+    status = "Starting Optimization:...processing:1,2, ... 9,500... finished."
   }
 }
 module itkAffineTransform {
@@ -214,8 +214,8 @@ module itkAffineTransform {
     moduleGroupName = ""
     windows  {
       window _default {
-        geometry = "482 323 1159 391"
-        sizeHint = "338 391"
+        geometry = "1670 1069 435 427"
+        sizeHint = "336 391"
         wasOpen = no
       }
     }
@@ -238,6 +238,13 @@ module itkTranslationTransform {
   internal  {
     frame = "241 363 157 50"
     moduleGroupName = ""
+    windows  {
+      window _default {
+        geometry = "1770 992 371 251"
+        sizeHint = "300 251"
+        wasOpen = no
+      }
+    }
   }
   fields  {
     instanceName = itkTranslationTransform
@@ -253,5 +260,102 @@ connections  {
   OriginalAndRegistered.input1 = itkMeanSquaresImageToImageMetric.output0
   SynchroView2D.inImage1 = OriginalAndScaled.output0
   SynchroView2D.inImage2 = OriginalAndRegistered.output0
+  itkMeanSquaresImageToImageMetric.input0 = Original.outImage
+  itkMeanSquaresImageToImageMetric.input1 = Scaled.outImage
+  itkMeanSquaresImageToImageMetric.inputTransform = itkTranslationTransform.outputTransform
+  itkMeanSquaresImageToImageMetric.inputInterpolator = itkLinearInterpolateImageFunction.outputInterpolator
+  itkRegularStepGradientDescentOptimizer.inputSingleValuedCostFunction = itkMeanSquaresImageToImageMetric.outputMetric
 }
-networkModel = ""
+networkModel  {
+  parentItems  {
+    0  {
+      MLABNetworkModelItem MLABNoteItem {
+        uniqueId = 29
+        objectName = ""
+        parentUniqueId = 0
+        frame = "3 -343 297 389"
+        backgroundColor  {
+          r = 252
+          g = 242
+          b = 2
+          a = 255
+        }
+        text = "1.)
+Mutual Information and Normalized Mutual Information are most effective, as they capture statistical dependencies rather than direct intensity differences.
+
+2.) 
+Parametric registration uses global transforms defined by a few parameters. Optical flow estimates dense, local displacements for each pixel or voxel.
+
+3.)
+A diffeomorphism is a smooth, invertible mapping that preserves topology. It's essential for nonrigid registration where anatomical consistency matters.
+
+4.)
+LDDMM stands for Large Deformation Diffeomorphic Metric Mapping. It’s used in deformable image registration, especially for brain alignment and shape analysis."
+        richText = "*<html>
+  <head>
+    <style type="text/css">
+      a.headerlink {
+        visibility: hidden;
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+
+  <p>1.)
+Mutual Information and Normalized Mutual Information are most effective, as they capture statistical dependencies rather than direct intensity differences.</p>
+<p>2.)
+Parametric registration uses global transforms defined by a few parameters. Optical flow estimates dense, local displacements for each pixel or voxel.</p>
+<p>3.)
+A diffeomorphism is a smooth, invertible mapping that preserves topology. It's essential for nonrigid registration where anatomical consistency matters.</p>
+<p>4.)
+LDDMM stands for Large Deformation Diffeomorphic Metric Mapping. It’s used in deformable image registration, especially for brain alignment and shape analysis.</p>
+
+
+  </body>
+</html>*"
+        titleText = Questions:
+        isCollapsed = False
+        drawAsComment = False
+        titleFrame = "8 -338 287 22"
+      }
+      MLABNetworkModelItem MLABNoteItem {
+        uniqueId = 30
+        objectName = ""
+        parentUniqueId = 0
+        frame = "315 -338 277 331"
+        backgroundColor  {
+          r = 252
+          g = 242
+          b = 2
+          a = 255
+        }
+        text = "The optimizer’s step length and number of iterations directly impact registration accuracy and convergence. A large initial step accelerates convergence but risks overshooting, while a small minimum step ensures fine adjustments. Fewer iterations may lead to underfitting; more allow better refinement but increase runtime. In my case, using moderate step sizes and 500 iterations led to stable convergence and visually improved alignment"
+        richText = "*<html>
+  <head>
+    <style type="text/css">
+      a.headerlink {
+        visibility: hidden;
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+
+  <p>The optimizer’s step length and number of iterations directly impact registration accuracy and convergence. A large initial step accelerates convergence but risks overshooting, while a small minimum step ensures fine adjustments. Fewer iterations may lead to underfitting; more allow better refinement but increase runtime. In my case, using moderate step sizes and 500 iterations led to stable convergence and visually improved alignment</p>
+
+
+  </body>
+</html>*"
+        titleText = Discussion
+        isCollapsed = False
+        drawAsComment = False
+        titleFrame = "320 -333 267 22"
+      }
+    }
+  }
+}
