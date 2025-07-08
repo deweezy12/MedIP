@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MeVisLab version="3.7">
+  <Network>
+    <Module name="LocalImage" type="LocalImage" />
+    <Field name="LocalImage.filename" value="$(DemoDataPath)/DTISubImg.dcm" />
+    <Module name="ReferenceSubImage" type="SubImage" />
+    <Module name="TemplateSubImage" type="SubImage" />
+    <Module name="MERIT" type="MERIT" />
+    <Module name="UserInputs" type="SoView2DMarkerEditor" />
+    <Module name="TrackMarkers" type="SoView2DMarkerEditor" />
+    <Module name="XMarkerListTransformation" type="XMarkerListContainer" />
+    <Module name="CurveInfo" type="CurveListContainer" />
+    <Module name="RunScript" type="RunPythonScript" />
+    <Field name="RunScript.script" value="
+import numpy as np
+import math
+
+clearCurve()
+
+# Get number of timepoints
+numTimepoints = ctx.field(&quot;LocalImage.outImage&quot;).sizeT()
+
+# Output marker list
+trackedMarkers = ctx.field(&quot;XMarkerListTransformation.outputXMarkerList&quot;).object()
+trackedMarkers.clear()
+
+# Get user-defined marker
+userMarkers = getUserInputMarkers()
+if not userMarkers:
+    print(&quot;No user markers found.&quot;)
+    exit()
+
+originalMarker = userMarkers[0]
+origin = originalMarker.pos()
+
+# Curve plotting
+curveList = ctx.field(&quot;CurveInfo.curveList&quot;).object()
+curveList.clear()
+
+for tp in range(numTimepoints):
+    print(f&quot;Processing timepoint {tp}...&quot;)
+
+    ctx.field(&quot;ReferenceSubImage.timePoint&quot;).value = 0
+    ctx.field(&quot;TemplateSubImage.timePoint&quot;).value = tp
+
+    calculateTransformationMatrix()
+    matrixValues = getTransformationMatrix()
+    matrix = np.array(matrixValues).reshape(4, 4)
+
+    pt = np.array([origin[0], origin[1], origin[2], 1])
+    transformed = matrix @ pt
+
+    newMarker = XMarker(transformed[0], transformed[1], transformed[2])
+    newMarker.setName(f&quot;tp={tp}&quot;)
+    trackedMarkers.append(newMarker)
+
+    dx = transformed[0] - origin[0]
+    dy = transformed[1] - origin[1]
+    dz = transformed[2] - origin[2]
+    displacement = math.sqrt(dx**2 + dy**2 + dz**2)
+    curveList.addCurveValue(0, tp, displacement)
+" />
+    <!-- Note: Connections between modules and viewer setup should be done manually after loading -->
+  </Network>
+</MeVisLab>
